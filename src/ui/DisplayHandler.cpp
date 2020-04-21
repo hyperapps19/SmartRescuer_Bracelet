@@ -1,3 +1,5 @@
+#ifndef DISPLAY_HANDLER
+#define DISPLAY_HANDLER
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <U8g2_for_Adafruit_GFX.h>
@@ -71,3 +73,4 @@ private:
 
     void *operator new(size_t size); // overloaded and private
 };
+#endif

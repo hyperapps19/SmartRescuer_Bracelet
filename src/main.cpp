@@ -1,4 +1,4 @@
-#include <DisplayHandler.cpp>
+#include <ui/DisplayHandler.cpp>
 /*
 
   Hello_Adafruit_SSD1306.ino
@@ -14,6 +14,7 @@
       
 */
 #include <Adafruit_SSD1306.h>
+#include <config/display.conf.h>
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
