@@ -10,13 +10,13 @@ void setup()
   INIT_DISPLAY(display);
   HANDLER_TYPE handler = HANDLER_TYPE(display);
   handler.drawLoadingScreen();
-  handler.drawLoadStatus("wifi падкл");
+  handler.drawLoadStatus(STATUS_WIFI_CONN);
   handler.updateScreen();
   delay(1000);
-  handler.drawLoadStatus("nqtt");
+  handler.drawLoadStatus(STATUS_MQTT_CONN);
   handler.updateScreen();
   delay(2000);
-  handler.drawLoadStatus("пулс");
+  handler.drawLoadStatus(STATUS_PULSE_SENSOR_INIT);
   handler.updateScreen();
   delay(5000);
   handler.clearScreen();
