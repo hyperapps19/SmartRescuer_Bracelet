@@ -1,4 +1,5 @@
 #include <config/display.conf.h>
+#include <ui/statuses.h>
 
 DISPLAY_TYPE display; // !!! IMPORTANT !!! Must be GLOBAL or Exception will happen
 

@@ -3,7 +3,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <U8g2_for_Adafruit_GFX.h>
-#include "logo.h"
+#include <ui/logo.h>
 
 template <typename DisplayType>
 class DisplayHandler
