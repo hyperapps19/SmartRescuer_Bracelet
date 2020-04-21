@@ -1,11 +1,18 @@
 #include <ESP8266WiFi.h>
 #include <Ticker.h>
 #include <AsyncMqttClient.h>
+#include <Arduino.h>
+
+#include <ui/DisplayHandler.cpp>
 
 #include "config/mqtt.conf.h"
+#include "config/display.conf.h"
+
+
 
 class MqttHandler
 {
+public:
   AsyncMqttClient mqttClient;
   Ticker mqttReconnectTimer;
 
@@ -20,6 +27,8 @@ class MqttHandler
 
   void onWifiConnect(const WiFiEventStationModeGotIP &event)
   {
+    //dHandler.drawLoadStatus(STATUS_WIFI_CONN);
+    //dHandler.updateScreen();
     connectToMqtt();
   }
 
@@ -36,6 +45,8 @@ class MqttHandler
 
   void onMqttConnect(bool sessionPresent)
   {
+   // dHandler.drawLoadStatus(STATUS_MQTT_CONN);
+   // dHandler.updateScreen();
   }
 
   void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
@@ -50,11 +61,10 @@ class MqttHandler
   {
   }
 
-  void setup()
-  {
+  MqttHandler() {
+    //this->dHandler = dHandler;
     wifiConnectHandler = WiFi.onStationModeGotIP(std::bind(&MqttHandler::onWifiConnect, this, std::placeholders::_1));
     wifiDisconnectHandler = WiFi.onStationModeDisconnected(std::bind(&MqttHandler::onWifiDisconnect, this, std::placeholders::_1));
-
     mqttClient.onConnect(std::bind(&MqttHandler::onMqttConnect, this, std::placeholders::_1));
     mqttClient.onDisconnect(std::bind(&MqttHandler::onMqttDisconnect, this, std::placeholders::_1));
     mqttClient.onMessage(std::bind(&MqttHandler::onMqttMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5, std::placeholders::_6));
@@ -64,4 +74,7 @@ class MqttHandler
 #endif
     connectToWifi();
   }
+
+private:
+  //DisplayHandler<Adafruit_SSD1306> dHandler;
 };

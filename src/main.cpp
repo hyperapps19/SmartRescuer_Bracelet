@@ -1,5 +1,6 @@
 #include <config/display.conf.h>
 #include <ui/statuses.h>
+#include <mqtt/MqttHandler.cpp>
 
 DISPLAY_TYPE display; // !!! IMPORTANT !!! Must be GLOBAL or Exception will happen
 
@@ -10,15 +11,11 @@ void setup()
   INIT_DISPLAY(display);
   HANDLER_TYPE handler = HANDLER_TYPE(display);
   handler.drawLoadingScreen();
-  handler.drawLoadStatus(STATUS_WIFI_CONN);
-  handler.updateScreen();
-  delay(1000);
-  handler.drawLoadStatus(STATUS_MQTT_CONN);
-  handler.updateScreen();
-  delay(2000);
-  handler.drawLoadStatus(STATUS_PULSE_SENSOR_INIT);
-  handler.updateScreen();
-  delay(5000);
+    MqttHandler *h = new MqttHandler();
+
+ // handler.drawLoadStatus(STATUS_PULSE_SENSOR_INIT);
+  //handler.updateScreen();
+
   handler.clearScreen();
   handler.drawYesNoButtons();
   handler.drawIsHelpHeeded();
