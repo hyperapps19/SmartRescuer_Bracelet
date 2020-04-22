@@ -7,8 +7,8 @@
 
 #include "config/mqtt.conf.h"
 #include "config/display.conf.h"
-
-
+#include "ui/statuses.h"
+#include <mqtt/MqttHelperFunctions.cpp>
 
 class MqttHandler
 {
@@ -27,8 +27,10 @@ public:
 
   void onWifiConnect(const WiFiEventStationModeGotIP &event)
   {
-    //dHandler.drawLoadStatus(STATUS_WIFI_CONN);
-    //dHandler.updateScreen();
+    Serial.println("WIF conn1");
+    // dHandler->drawLoadStatus(STATUS_MQTT_CONN);
+    // dHandler->updateScreen();
+    Serial.println("WIF conn2");
     connectToMqtt();
   }
 
@@ -40,13 +42,14 @@ public:
 
   void connectToMqtt()
   {
+    Serial.println("conncecting mqqttt");
     mqttClient.connect();
   }
 
   void onMqttConnect(bool sessionPresent)
   {
-   // dHandler.drawLoadStatus(STATUS_MQTT_CONN);
-   // dHandler.updateScreen();
+    sendMAX30102Data(mqttClient, 23, 99);
+    Serial.println("mqtt CONN");
   }
 
   void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
@@ -61,8 +64,9 @@ public:
   {
   }
 
-  MqttHandler() {
-    //this->dHandler = dHandler;
+  MqttHandler(HANDLER_TYPE *dHandler)
+  {
+    this->dHandler = dHandler;
     wifiConnectHandler = WiFi.onStationModeGotIP(std::bind(&MqttHandler::onWifiConnect, this, std::placeholders::_1));
     wifiDisconnectHandler = WiFi.onStationModeDisconnected(std::bind(&MqttHandler::onWifiDisconnect, this, std::placeholders::_1));
     mqttClient.onConnect(std::bind(&MqttHandler::onMqttConnect, this, std::placeholders::_1));
@@ -76,5 +80,5 @@ public:
   }
 
 private:
-  //DisplayHandler<Adafruit_SSD1306> dHandler;
+  HANDLER_TYPE *dHandler;
 };
