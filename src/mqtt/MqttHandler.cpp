@@ -1,3 +1,6 @@
+#ifndef MQTT_HANDLER
+#define MQTT_HANDLER
+
 #include <ESP8266WiFi.h>
 #include <Ticker.h>
 #include <AsyncMqttClient.h>
@@ -8,7 +11,7 @@
 #include "config/mqtt.conf.h"
 #include "config/display.conf.h"
 #include "ui/statuses.h"
-#include <mqtt/MqttHelperFunctions.cpp>
+#include <mqtt/MqttHelperFunctions.h>
 
 class MqttHandler
 {
@@ -82,3 +85,4 @@ public:
 private:
   HANDLER_TYPE *dHandler;
 };
+#endif

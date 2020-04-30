@@ -1,8 +1,4 @@
-#include <array>
-#include <mqtt/MqttPath.cpp>
-#include <AsyncMqttClient.h>
-
-#include "config/mqtt.conf.h"
+#include "MqttHelperFunctions.h"
 
 bool sendData(AsyncMqttClient mqttClient, String suffix, String data)
 {

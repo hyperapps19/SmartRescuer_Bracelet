@@ -13,7 +13,7 @@ void setup()
   handler.drawLoadingScreen();
   handler.drawLoadStatus(STATUS_WIFI_CONN);
   handler.updateScreen();
-  //MqttHandler *h = new MqttHandler(&handler);
+  MqttHandler h(&handler);
 
   //handler.drawLoadStatus(STATUS_PULSE_SENSOR_INIT);
   //handler.updateScreen();
