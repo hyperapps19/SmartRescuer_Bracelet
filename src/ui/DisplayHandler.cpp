@@ -71,6 +71,6 @@ private:
         return (d.width() - gfx8.getUTF8Width(str)) / 2;
     }
 
-    void *operator new(size_t size); // overloaded and private
+    //void *operator new(size_t size); // overloaded and private
 };
 #endif
