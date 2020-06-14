@@ -8,9 +8,11 @@
 //#define MQTT_HOST "test.mosquitto.org"
 #define MQTT_PORT 1883
 
-// #define MQTT_NEEDS_AUTHENTIFICATION
+/*
+#define MQTT_NEEDS_AUTHENTIFICATION
 #define MQTT_USER "asxblxmp"
 #define MQTT_PASSWORD "YDTPHJXAiXIw"
+*/
 
 #define QOS 2
 #define RETAINED_MESSAGE false
