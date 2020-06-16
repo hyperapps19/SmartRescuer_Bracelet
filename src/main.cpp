@@ -12,7 +12,7 @@ const int trigPin = D7;
 #define VERSION "1.0"
 
 DISPLAY_TYPE display; // !!! IMPORTANT !!! Must be GLOBAL or Exception will happen
-HANDLER_TYPE handler;
+HANDLER_TYPE* handler;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -73,8 +73,8 @@ void reconnect()
       if (firstMqttConn) {
         firstMqttConn = false;
 
-        handler.drawLoadStatus(STATUS_PULSE_SENSOR_INIT);
-        handler.updateScreen();
+        handler->drawLoadStatus(STATUS_PULSE_SENSOR_INIT);
+        handler->updateScreen();
       }
       DEBUG("Connected to MQTT server.");
     }
@@ -100,15 +100,17 @@ void setup()
 
   display = UI_DISPLAY;
   INIT_DISPLAY(display);
-  handler = HANDLER_TYPE(display);
-  handler.drawLoadingScreen();
-  handler.drawLoadStatus(STATUS_WIFI_CONN);
-  handler.updateScreen();
+  HANDLER_TYPE h = HANDLER_TYPE(display);
+  handler = &h;
+  handler->drawMainScreen();
+  //handler->drawLoadingScreen();
+ // handler->drawLoadStatus(STATUS_WIFI_CONN);
+  handler->updateScreen();
 
   setup_wifi();
 
-  handler.drawLoadStatus(STATUS_MQTT_CONN);
-  handler.updateScreen();
+  //handler->drawLoadStatus(STATUS_MQTT_CONN);
+ // handler->updateScreen();
 
   client.setServer(MQTT_HOST, MQTT_PORT);
   client.setCallback(callback);
