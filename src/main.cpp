@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <ButtonHandler.cpp>
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -7,12 +8,17 @@
 #include "config/display.conf.h"
 #include "config/mqtt.conf.h"
 
+#define LEFT_BTN D5
+#define RIGHT_BTN D6
+
+ButtonHandler left(LEFT_BTN);
+ButtonHandler right(RIGHT_BTN);
 const int trigPin = D7;
 
 #define VERSION "1.0"
 
 DISPLAY_TYPE display; // !!! IMPORTANT !!! Must be GLOBAL or Exception will happen
-HANDLER_TYPE* handler;
+HANDLER_TYPE *handler;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -70,7 +76,8 @@ void reconnect()
     // Attempt to connect
     if (client.connect(clientId.c_str()))
     {
-      if (firstMqttConn) {
+      if (firstMqttConn)
+      {
         firstMqttConn = false;
 
         handler->drawLoadStatus(STATUS_PULSE_SENSOR_INIT);
@@ -88,29 +95,40 @@ void reconnect()
   }
 }
 
+void ICACHE_RAM_ATTR leftBtnCallback(void)
+{
+  Serial.println("L");
+}
+
+void ICACHE_RAM_ATTR rightBtnCallback(void)
+{
+  Serial.println("R");
+}
 
 void setup()
 {
   pinMode(trigPin, OUTPUT);
   Serial.begin(115200);
+  pinMode(trigPin, OUTPUT);
+  left.setCallback(leftBtnCallback);
+  right.setCallback(rightBtnCallback);
   Serial.println();
   Serial.println("SmartRescuer Project --- Bracelet Firmware v" + String(VERSION));
   Serial.println();
-
 
   display = UI_DISPLAY;
   INIT_DISPLAY(display);
   HANDLER_TYPE h = HANDLER_TYPE(display);
   handler = &h;
-  handler->drawMainScreen();
+  handler->drawAlarmScreen();
   //handler->drawLoadingScreen();
- // handler->drawLoadStatus(STATUS_WIFI_CONN);
+  // handler->drawLoadStatus(STATUS_WIFI_CONN);
   handler->updateScreen();
 
   setup_wifi();
 
   //handler->drawLoadStatus(STATUS_MQTT_CONN);
- // handler->updateScreen();
+  // handler->updateScreen();
 
   client.setServer(MQTT_HOST, MQTT_PORT);
   client.setCallback(callback);

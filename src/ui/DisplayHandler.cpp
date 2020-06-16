@@ -73,21 +73,83 @@ public:
         gfx8.print(spo2Str);
     }
 
+    void drawAlarmScreen(void)
+    {
+        d.drawBitmap(0, 0, alarm, 51, 40, WHITE);
+        d.drawBitmap(88, 0, logo, 40, 40, WHITE);
+        d.drawBitmap(51, 10, arrowRight, 37, 22, WHITE);
+        gfx8.setFont(u8g2_font_10x20_t_cyrillic);
+        d.drawFastHLine(0, d.height() - 22, d.width(), WHITE);
+        gfx8.setCursor(5, d.height() - 5);
+        gfx8.print("Откл.тревогу");
+        drawAlarmDisableTimer(MODE_LEFT);
+    }
+
+    const bool MODE_LEFT = false;
+    const bool MODE_RIGHT = true;
+
+    void drawAlarmDisableTimer(bool mode)
+    {
+        gfx8.setFont(u8g2_font_10x20_t_cyrillic);
+        d.fillRect(0, 43, 128, 21, BLACK);
+        if (mode) // MODE_RIGHT
+        {
+            gfx8.setCursor(0, d.height() - 5);
+            gfx8.print("3 сек.");
+            d.drawFastHLine(64, d.height() - 21, 64, WHITE);
+            d.drawFastHLine(64, d.height() - 20, 64, WHITE);
+
+            d.drawFastVLine(64, d.height() - 22, 22, WHITE);
+            d.drawFastVLine(65, d.height() - 22, 22, WHITE);
+            d.drawFastVLine(66, d.height() - 22, 22, WHITE);
+            gfx8.setCursor(70, d.height() - 5);
+            gfx8.print("Удерж.");
+        }
+        else
+        { // MODE_LEFT
+            gfx8.setCursor(70, d.height() - 5);
+            gfx8.print("3 сек.");
+            d.drawFastHLine(0, d.height() - 21, 64, WHITE);
+            d.drawFastHLine(0, d.height() - 20, 64, WHITE);
+
+            d.drawFastVLine(64, d.height() - 22, 22, WHITE);
+            d.drawFastVLine(63, d.height() - 22, 22, WHITE);
+            d.drawFastVLine(62, d.height() - 22, 22, WHITE);
+            gfx8.setCursor(0, d.height() - 5);
+            gfx8.print("Удерж.");
+        }
+    }
+
+    bool changeSeconds(uint8_t newSeconds, bool mode)
+    {
+        if (mode) // MODE_RIGHT
+        {
+            d.fillRect(0, 45, 20, 20, BLACK);
+            gfx8.setCursor(0, d.height() - 5);
+        }
+        else
+        { // MODE_LEFT
+            d.fillRect(70, 45, 20, 20, BLACK);
+            gfx8.setCursor(70, d.height() - 5);
+        }
+        gfx8.print(String(newSeconds));
+    }
+
     void drawYesNoButtons(void)
     {
         gfx8.setFont(u8g2_font_10x20_t_cyrillic);
         d.drawFastHLine(0, d.height() - 25, d.width(), WHITE);
         gfx8.setCursor(20, d.height() - 5);
-        gfx8.println("ДА");
+        gfx8.print("ДА");
         gfx8.setCursor(d.width() - 45, d.height() - 5);
-        gfx8.println("НЕТ");
+        gfx8.print("НЕТ");
         d.drawFastVLine(d.width() / 2, d.height() - 25, 25, WHITE);
     }
 
     void drawIsHelpHeeded(void)
     {
         gfx8.setCursor(48, 15);
-        gfx8.println("Нужна");
+        gfx8.print("Нужна");
         gfx8.setCursor(48, gfx8.getCursorY() + 3);
         gfx8.print("помощь?");
         gfx8.setCursor(10, 30);
@@ -102,7 +164,7 @@ public:
         d.drawBitmap(0, 0, logo, 40, 40, WHITE);
         gfx8.setCursor(60, 20);
         gfx8.setFont(u8g2_font_10x20_t_cyrillic);
-        gfx8.println("УМНЫЙ");
+        gfx8.print("УМНЫЙ");
         gfx8.setCursor(40, gfx8.getCursorY() + 3);
         gfx8.print("СПАСАТЕЛЬ");
         d.drawFastHLine(40, 39, d.width() - 40, WHITE);
