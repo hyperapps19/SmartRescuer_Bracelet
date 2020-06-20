@@ -49,7 +49,7 @@ public:
     }
 
 #define EMPTY_VALUE "---"
-    void setPulseAndSpO2Values(int16_t pulse, int8_t spo2)
+    void setPulseAndSpO2Values(int32_t pulse, int32_t spo2)
     {
         d.fillRect(41, 0, 36, 64, BLACK);
         String pulStr, spo2Str;
@@ -75,18 +75,17 @@ public:
 
     void drawAlarmScreen(void)
     {
-        d.drawBitmap(0, 0, alarm, 51, 40, WHITE);
+        d.drawBitmap(0, 0, alarmImg, 51, 40, WHITE);
         d.drawBitmap(88, 0, logo, 40, 40, WHITE);
         d.drawBitmap(51, 10, arrowRight, 37, 22, WHITE);
         gfx8.setFont(u8g2_font_10x20_t_cyrillic);
         d.drawFastHLine(0, d.height() - 22, d.width(), WHITE);
         gfx8.setCursor(5, d.height() - 5);
         gfx8.print("Откл.тревогу");
-        drawAlarmDisableTimer(MODE_LEFT);
     }
 
-    const bool MODE_LEFT = false;
-    const bool MODE_RIGHT = true;
+    static const bool MODE_LEFT = false;
+    static const bool MODE_RIGHT = true;
 
     void drawAlarmDisableTimer(bool mode)
     {
@@ -162,10 +161,10 @@ public:
     void drawLoadingScreen(void)
     {
         d.drawBitmap(0, 0, logo, 40, 40, WHITE);
-        gfx8.setCursor(60, 20);
+        gfx8.setCursor(60, 18);
         gfx8.setFont(u8g2_font_10x20_t_cyrillic);
         gfx8.print("УМНЫЙ");
-        gfx8.setCursor(40, gfx8.getCursorY() + 3);
+        gfx8.setCursor(40, 37);
         gfx8.print("СПАСАТЕЛЬ");
         d.drawFastHLine(40, 39, d.width() - 40, WHITE);
     }
